@@ -57,7 +57,7 @@ int main()
 
         if (mode == 1)
         {
-            // SINGLE PLAYER MODE
+           
             srand(time(NULL));
             int n = rand() % 100;
 
@@ -77,8 +77,8 @@ int main()
         }
         else
         {
-            // MULTIPLAYER MODE
-            printf("Player 1 (s/p/c): ");
+          
+          printf("Player 1 (s/p/c): ");
             scanf(" %c", &p1);
 
             printf("Player 2 (s/p/c): ");
