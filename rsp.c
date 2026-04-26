@@ -87,7 +87,7 @@ int main()
             result = game(p1, p2);
         }
 
-        // RESULT DISPLAY
+
         if (result == 1)
         {
             printf("\nPlayer 1 Wins!\n");
