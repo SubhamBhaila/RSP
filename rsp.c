@@ -1,156 +1,121 @@
-
 #define _CRT_SECURE_NO_WARNINGS
-#include <math.h>	
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
-#include<windows.h>
+#include <windows.h>
 
-
-int game(char you, char computer)
+int game(char p1, char p2)
 {
-    if (you == computer)
+    if (p1 == p2)
         return -1;
 
-
-    else if (you == 's' && computer == 'p')
+    else if (p1 == 's' && p2 == 'p')
         return 0;
-
-
-    else if (you == 'p' && computer == 's')
+    else if (p1 == 'p' && p2 == 's')
         return 1;
 
-
-    else if (you == 's' && computer == 'c')
+    else if (p1 == 's' && p2 == 'c')
         return 1;
-
-
-    else if (you == 'c' && computer == 's')
+    else if (p1 == 'c' && p2 == 's')
         return 0;
 
-
-    else if (you == 'p' && computer == 'c')
+    else if (p1 == 'p' && p2 == 'c')
         return 0;
-
-
-    else if (you == 'c' && computer == 'p')
+    else if (p1 == 'c' && p2 == 'p')
         return 1;
-    if (you != 's' && you != 'p' && you != 'c')
-        return -2; 
 
-
+    return -2;
 }
+
 int main()
 {
-	int n, a;
-	char you, computer, result;
-	int i;
-	
-	int match = 1;
-	int win = 0, loss = 0, draw = 0;
-	char ch;
-	printf("press enter to start");
-	while (1)
-	{
-		ch = _getch();
+    int mode;
+    char p1, p2, computer;
+    char ch;
+    int result;
 
-		if (ch == 'q' || ch == 'Q') {
-			break;
-		}
+    int match = 1;
+    int win = 0, loss = 0, draw = 0;
 
-		
-		printf("\n\n\ngame %d\n", match);
-		srand(time(NULL));
-		n = rand() % 100;
-		if (n < 33)
-			computer = 's';
-		else if (n > 33 && n < 66)
-			computer = 'p';
-		else
-			computer = 'c';   
-		printf("\n\n\n\n\t\t\t\tEnter s for stone, p for paper and c for scissor\n\t\t\t\t\t\t\t");
-		scanf(" %c", &you);
-		result = game(you, computer);
-		if (you == 's') {
-			Sleep(1000);
-			printf("\n\t\t\t\t\tyou choosed stone ");
-		}
-		else if (you == 'p')
-		{
-			Sleep(1000);
-			printf("\n\t\t\t\t\tyou choosed paper ");
-		}
-		else if (you != 'p' && you != 's' && you != 'c')
-		{
-			printf("\n\t\t\t\t\tyou choosed the wrong letteer");
-		}
-		else
-		{
-			printf("\n\t\t\t\t\tyou choosed scissor  ");
-		}
+    printf("==== Stone Paper Scissors Game ====\n");
+    printf("Choose Mode:\n");
+    printf("1. Single Player (vs Computer)\n");
+    printf("2. Multiplayer (Player vs Player)\n");
+    printf("Enter choice: ");
+    scanf("%d", &mode);
 
-		if (n < 33) {
-			Sleep(1000);
-			printf("\n\t\t\t\t\tcomputer choosed stone ");
-		}
-		else if (n > 33 && n < 66) {
-			Sleep(1000);
-			printf("\n\t\t\t\t\tcomputer choosed paper ");
-		}
-		else {
-			Sleep(1000);
-		 	printf("\n\t\t\t\t\tcomputer choosed scissor ");
-		}
-		
-		if (result == -1) {
-			Sleep(1000);
-			printf("\n\n\t\t\t\t\t\tGame Draw\n");
-		}
-		else if (result == 1) {
-			Sleep(1000);
-			printf("\n\n\t\t\t\t\t\tYou Win\n");
-		}
-		else if (result == -2) {
-			
-			printf("\n\n\t\t\t\t\t\tInvalid Input\n");
-		}
-		else {
-			Sleep(1000);
-			printf("\n\n\t\t\t\t\t\tYou Lose\n");
-		}
+    printf("\nPress ENTER to start, Q to quit anytime\n");
 
-		if (result == 1) {
-			win++;
+    while (1)
+    {
+        ch = _getch();
+        if (ch == 'q' || ch == 'Q')
+            break;
 
+        printf("\n\nGame %d\n", match);
 
+        if (mode == 1)
+        {
+            // SINGLE PLAYER MODE
+            srand(time(NULL));
+            int n = rand() % 100;
 
-		}
-		if (result == 0)
-		{
-			loss++;
+            if (n < 33)
+                computer = 's';
+            else if (n < 66)
+                computer = 'p';
+            else
+                computer = 'c';
 
-		}
-		if (result == -1) {
-			draw++;
+            printf("Enter s (stone), p (paper), c (scissors): ");
+            scanf(" %c", &p1);
 
-		}
-		Sleep(1000);
-		printf("\n\n\t\t\t\tpress q  to end the game or press enter to continue\n");
+            result = game(p1, computer);
 
+            printf("Computer chose: %c\n", computer);
+        }
+        else
+        {
+            // MULTIPLAYER MODE
+            printf("Player 1 (s/p/c): ");
+            scanf(" %c", &p1);
 
-		match++;
+            printf("Player 2 (s/p/c): ");
+            scanf(" %c", &p2);
 
+            result = game(p1, p2);
+        }
 
-	}
-	Sleep(1000);
-	printf("\n\t\t wins \t\t\t loss\t\t\t\tdraw \n\t\t%d \t\t\t\t%d\t\t\t\t%d\n\n\n  ", win,loss,draw);
-	Sleep(1000);
-	
-	printf("\t\t\t\t\t\t\tThank you for playing\n\n\n\n");
-	Sleep(1000);
+        // RESULT DISPLAY
+        if (result == 1)
+        {
+            printf("\nPlayer 1 Wins!\n");
+            win++;
+        }
+        else if (result == 0)
+        {
+            printf("\nPlayer 2 Wins!\n");
+            loss++;
+        }
+        else if (result == -1)
+        {
+            printf("\nGame Draw!\n");
+            draw++;
+        }
+        else
+        {
+            printf("\nInvalid Input!\n");
+        }
 
-	return 0;
+        match++;
+
+        printf("\nPress ENTER to continue or Q to quit\n");
+    }
+
+    printf("\n===== FINAL SCORE =====\n");
+    printf("Wins: %d\nLosses: %d\nDraws: %d\n", win, loss, draw);
+    printf("Thank you for playing!\n");
+
+    return 0;
 }
-
-
