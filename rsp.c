@@ -4,29 +4,7 @@
 #include <time.h>
 #include <conio.h>
 #include <windows.h>
-
-int game(char p1, char p2)
-{
-    if (p1 == p2)
-        return -1;
-
-    else if (p1 == 's' && p2 == 'p')
-        return 0;
-    else if (p1 == 'p' && p2 == 's')
-        return 1;
-
-    else if (p1 == 's' && p2 == 'c')
-        return 1;
-    else if (p1 == 'c' && p2 == 's')
-        return 0;
-
-    else if (p1 == 'p' && p2 == 'c')
-        return 0;
-    else if (p1 == 'c' && p2 == 'p')
-        return 1;
-
-    return -2;
-}
+#include "game.h"
 
 int main()
 {
@@ -38,27 +16,42 @@ int main()
     int match = 1;
     int win = 0, loss = 0, draw = 0;
 
+    FILE *fp;
+
+    fp = fopen("score.txt", "r");
+
+    if (fp != NULL)
+    {
+        fscanf(fp, "%d %d %d", &win, &loss, &draw);
+        fclose(fp);
+        printf("Previous Score -> Wins: %d Loss: %d Draw: %d\n\n", win, loss, draw);
+    }
+
     printf("==== Stone Paper Scissors Game ====\n");
-    printf("Choose Mode:\n");
-    printf("1. Single Player (vs Computer)\n");
-    printf("2. Multiplayer (Player vs Player)\n");
-    printf("Enter choice: ");
+    printf("1. Single Player\n2. Multiplayer\nEnter choice: ");
     scanf("%d", &mode);
 
-    printf("\nPress ENTER to start, Q to quit anytime\n");
+    if (mode != 1 && mode != 2)
+    {
+        printf("Invalid Input!\n");
+        return 0;
+    }
+
+    printf("\nPress ENTER to start, Q to quit\n");
+
+    srand(time(NULL));
 
     while (1)
     {
         ch = _getch();
+
         if (ch == 'q' || ch == 'Q')
             break;
 
-        printf("\n\nGame %d\n", match);
+        printf("\nGame %d\n", match);
 
         if (mode == 1)
         {
-           
-            srand(time(NULL));
             int n = rand() % 100;
 
             if (n < 33)
@@ -77,35 +70,45 @@ int main()
         }
         else
         {
-          
-          printf("Player 1 (s/p/c): ");
-            scanf(" %c", &p1);
+            printf("Player 1 (s/p/c): ");
+            p1 = _getch();
+            printf("*\n");
+            system("cls");
 
             printf("Player 2 (s/p/c): ");
-            scanf(" %c", &p2);
+            p2 = _getch();
+            printf("*\n");
+            system("cls");
 
             result = game(p1, p2);
         }
 
-        // RESULT DISPLAY
         if (result == 1)
         {
-            printf("\nPlayer 1 Wins!\n");
+            if (mode == 1)
+                printf("You Win!\n");
+            else
+                printf("Player 1 Wins!\n");
+
             win++;
         }
         else if (result == 0)
         {
-            printf("\nPlayer 2 Wins!\n");
+            if (mode == 1)
+                printf("You Lose!\n");
+            else
+                printf("Player 2 Wins!\n");
+
             loss++;
         }
         else if (result == -1)
         {
-            printf("\nGame Draw!\n");
+            printf("Draw!\n");
             draw++;
         }
         else
         {
-            printf("\nInvalid Input!\n");
+            printf("Invalid Input!\n");
         }
 
         match++;
@@ -113,9 +116,16 @@ int main()
         printf("\nPress ENTER to continue or Q to quit\n");
     }
 
-    printf("\n===== FINAL SCORE =====\n");
-    printf("Wins: %d\nLosses: %d\nDraws: %d\n", win, loss, draw);
-    printf("Thank you for playing!\n");
+    fp = fopen("score.txt", "w");
+
+    if (fp != NULL)
+    {
+        fprintf(fp, "%d %d %d", win, loss, draw);
+        fclose(fp);
+    }
+
+    printf("\nFinal Score:\nWins: %d Loss: %d Draw: %d\n", win, loss, draw);
+    printf("Score saved to file (score.txt)\n");
 
     return 0;
 }
