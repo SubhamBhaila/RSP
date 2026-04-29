@@ -82,12 +82,7 @@ int main()
 
             result = game(p1, p2);
         }
-
-<<<<<<< HEAD
-=======
-
->>>>>>> af5fb7182911c6f5c139c4c82246abad6c95f01a
-        if (result == 1)
+            if (result == 1)
         {
             if (mode == 1)
                 printf("You Win!\n");
